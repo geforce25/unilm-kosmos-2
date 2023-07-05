@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+kosmos-2/data/kosmos-2.pt
