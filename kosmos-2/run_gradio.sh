@@ -1,10 +1,10 @@
 #!/bin/bash
 
-model_path=/path/to/kosmos2.pt
+model_path=/home/ai/models/kosmos-2.pt
 
 master_port=$((RANDOM%1000+20000))
 
-CUDA_LAUNCH_BLOCKING=1 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port=$master_port --nproc_per_node=1 demo/gradio_app.py None \
+CUDA_LAUNCH_BLOCKING=1 CUDA_VISIBLE_DEVICES=0 torchrun --master_port=$master_port --nproc_per_node=1 demo/gradio_app.py None \
     --task generation_obj \
     --path $model_path \
     --model-overrides "{'visual_pretrained': '',
