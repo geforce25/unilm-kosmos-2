@@ -1,6 +1,8 @@
 FROM nvidia/cuda:11.7.1-cudnn8-devel-ubuntu20.04
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda-11.7/lib64:/usr/local/cuda-11.7/include
+ENV PATH /usr/local/cuda-11.7/bin:$PATH
 
 RUN apt-get update
 RUN apt-get install -y software-properties-common
@@ -37,19 +39,12 @@ RUN pip install gradio
 RUN pip install opencv-python
 RUN pip install tensorboardX
 
-ENV LD_LIBRARY_PATH /usr/local/cuda-11.7/lib64
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda-11.7/include
-ENV PATH /usr/local/cuda-11.7/bin:$PATH
-RUN pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
-
 WORKDIR /home/ai
 RUN git clone --depth 1 --branch 23.05 https://github.com/NVIDIA/apex
 WORKDIR /home/ai/apex
+RUN pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 
-RUN pip install -v --disable-pip-version-check --no-cache-dir \
-    --global-option="--cpp_ext" --global-option="--cuda_ext" ./
-
-RUN pip uninstall -y xformers
-RUN pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
+RUN pip uninstall -y xformers && \ 
+    pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
 
 WORKDIR /home/ai/unilm/kosmos-2
