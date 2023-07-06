@@ -15,6 +15,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3.10 get-pip.py
 RUN apt install -y libpython3.10-dev
 RUN apt-get install -y git
+RUN apt-get install libgl1
 
 RUN pip install --upgrade pip
 
@@ -47,5 +48,8 @@ WORKDIR /home/ai/apex
 
 RUN pip install -v --disable-pip-version-check --no-cache-dir \
     --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+
+RUN pip uninstall -y xformers
+RUN pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
 
 WORKDIR /home/ai/unilm/kosmos-2
