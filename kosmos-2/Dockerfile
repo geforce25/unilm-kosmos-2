@@ -44,6 +44,7 @@ RUN git clone --depth 1 --branch 23.05 https://github.com/NVIDIA/apex
 WORKDIR /home/ai/apex
 RUN pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 
+ENV TORCH_CUDA_ARCH_LIST 8.6+PTX
 RUN pip uninstall -y xformers && \ 
     pip install -v -U git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
 
