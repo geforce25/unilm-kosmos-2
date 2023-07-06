@@ -15,7 +15,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3.10 get-pip.py
 RUN apt install -y libpython3.10-dev
 RUN apt-get install -y git
-RUN apt-get install libgl1
+RUN apt-get install -y libgl1
 
 RUN pip install --upgrade pip
 
